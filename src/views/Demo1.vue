@@ -5,7 +5,7 @@
 
    <div class="cen">
     <tr>
-        <!--  -->
+        <!--  标题-->
         <th>   <!-- 选择按钮 -->
             <button @click="checkAll()">全选</button>
             <button @click="checkNot()">全不选</button>
@@ -20,6 +20,7 @@
         <th>操作</th>
      </tr>
      <!-- 数字后面可以添加小数点 .toFixed(3)-->
+       <!-- 数据遍历 -->
      <tr v-for="(v,k) in goodlist" :key="k" v-show="v.booll">
         <td ><input type="checkbox" name="" id="" v-model="v.bool" @click="fn(k)"></td>
         <td>{{v.goodname}}</td>
@@ -37,6 +38,7 @@
         <td>{{v.good_num*v.price}}</td>
         <td><button @click="del(k)">删除</button></td>
      </tr>
+     <!-- 价格总计 -->
       <tr>
         <td>总计:{{aggregate}}</td>
       </tr>
@@ -50,7 +52,6 @@
 export default {
   data(){
      return{
-        booll:true,
         /*
           <th>商品</th>
           <th>单价</th>
@@ -68,6 +69,7 @@ export default {
      }
   },
   methods:{
+    // 数量加
        jia(k){
         if(this.goodlist[k].good_num<this.goodlist[k].inventory){
           this.goodlist[k].good_num+=1;
@@ -76,6 +78,7 @@ export default {
          alert("没有库存")
        }
      },
+    //  数量减
      jian(k){
         if(this.goodlist[k].good_num>1){
             this.goodlist[k].good_num-=1;
@@ -84,21 +87,26 @@ export default {
             alert("购买的商品不能少于1件")
         }
      },
-     fn(v){
-           console.log(this.goodlist[v].bool);
-     },
+
+    //  fn(v){
+    //        console.log(this.goodlist[v].bool);
+    //  },
+    // 全选
      checkAll(){
         for(let i=0;i<this.goodlist.length;i++)
           this.goodlist[i].bool=true
      },
+    // 全不选
      checkNot(){
         for(let i=0;i<this.goodlist.length;i++)
             this.goodlist[i].bool=false
      },
+    //  反选
      inverSelection(){
         for(let i=0;i<this.goodlist.length;i++)
             this.goodlist[i].bool= !this.goodlist[i].bool;
      },
+    //  删除整条信息
      del(v){
            console.log(v); 
            this.goodlist[v].booll=!this.goodlist[v].booll;
@@ -107,6 +115,7 @@ export default {
   },
   computed:{
     // 计算 只需要调用一次
+    // 商品所有价格
     aggregate(){
         let hold=0;
          for(let i=0;i<this.goodlist.length;i++){
