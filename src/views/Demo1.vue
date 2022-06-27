@@ -20,8 +20,8 @@
         <th>操作</th>
      </tr>
      <!-- 数字后面可以添加小数点 .toFixed(3)-->
-     <tr v-for="(v,k) in goodlist" :key="k" >
-        <td><input type="checkbox" name="" id="" v-model="v.bool" @click="fn(k)"></td>
+     <tr v-for="(v,k) in goodlist" :key="k" v-show="v.booll">
+        <td ><input type="checkbox" name="" id="" v-model="v.bool" @click="fn(k)"></td>
         <td>{{v.goodname}}</td>
         <td class="good_img">
             <img :src="v.good_img" alt="">
@@ -35,11 +35,11 @@
             <button @click="jian(k)">-</button>
         </td>
         <td>{{v.good_num*v.price}}</td>
-        <td><button>删除</button></td>
+        <td><button @click="del(k)">删除</button></td>
      </tr>
-      <!-- <tr>
-        <td>总计:</td>
-      </tr> -->
+      <tr>
+        <td>总计:{{aggregate}}</td>
+      </tr>
    </div>
      
 
@@ -50,6 +50,7 @@
 export default {
   data(){
      return{
+        booll:true,
         /*
           <th>商品</th>
           <th>单价</th>
@@ -59,16 +60,15 @@ export default {
           <th>操作</th>
         */ 
         goodlist:[
-              {goodname:"裤子",good_img:require("../img/1.png"),price:150, inventory:4,good_num:1,bool:false},
-              {goodname:"裙子",good_img:require("../img/2.png"),price:250,inventory:100,good_num:1,bool:false},
-              {goodname:"体恤衫",good_img:require("../img/3.png"),price:100,inventory:500,good_num:1,bool:false},
-              {goodname:"眼镜",good_img:require("../img/4.png"),price:500,inventory:2,good_num:1,bool:false}
+              {goodname:"裤子",good_img:require("../img/1.png"),price:150, inventory:4,good_num:1,bool:false,booll:true},
+              {goodname:"裙子",good_img:require("../img/2.png"),price:250,inventory:100,good_num:1,bool:false,booll:true},
+              {goodname:"体恤衫",good_img:require("../img/3.png"),price:100,inventory:500,good_num:1,bool:false,booll:true},
+              {goodname:"眼镜",good_img:require("../img/4.png"),price:500,inventory:2,good_num:1,bool:false,booll:true}
             ]
      }
   },
   methods:{
        jia(k){
-        console.log(this.goodlist[k].good_num);
         if(this.goodlist[k].good_num<this.goodlist[k].inventory){
           this.goodlist[k].good_num+=1;
           }
@@ -98,7 +98,26 @@ export default {
      inverSelection(){
         for(let i=0;i<this.goodlist.length;i++)
             this.goodlist[i].bool= !this.goodlist[i].bool;
+     },
+     del(v){
+           console.log(v); 
+           this.goodlist[v].booll=!this.goodlist[v].booll;
+
      }
+  },
+  computed:{
+    // 计算 只需要调用一次
+    aggregate(){
+        let hold=0;
+         for(let i=0;i<this.goodlist.length;i++){
+                 if( this.goodlist[i].bool===true){
+                          hold+=this.goodlist[i].good_num*this.goodlist[i].price
+                        //   console.log(hold);
+                 }
+         }
+          return hold;
+    }
+   
   }
 }
 </script>
