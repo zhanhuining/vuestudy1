@@ -22,7 +22,7 @@
      <!-- 数字后面可以添加小数点 .toFixed(3)-->
        <!-- 数据遍历 -->
      <tr v-for="(v,k) in goodlist" :key="k" v-show="v.booll">
-        <td ><input type="checkbox" name="" id="" v-model="v.bool" @click="fn(k)"></td>
+        <td ><input type="checkbox" name="" id="" v-model="v.bool" ></td>
         <td>{{v.goodname}}</td>
         <td class="good_img">
             <img :src="v.good_img" alt="">
